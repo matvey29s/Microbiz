@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>MicroBiz - Автоматизация учета</title>
+        <link
+            href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <style>
+            :root {
+                --mdc-theme-primary: #3a7bff;
+                --mdc-theme-secondary: #4caf50;
+                --gradient-start: #1a56ff;
+                --gradient-end: #3a7bff;
+                --card-bg: rgba(255, 255, 255, 0.95);
+                --problem-color: #ff3a3a;
+            }
+
+            body {
+                font-family: 'Roboto', sans-serif;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(
+                    135deg,
+                    var(--gradient-start),
+                    var(--gradient-end)
+                );
+                color: #333;
+                min-height: 100vh;
+            }
+
+            .hero {
+                padding: 80px 20px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 80vh;
+                background-image: url('./119768_O.jpg');
+                background-size: cover;
+                background-position: center;
+                background-blend-mode: overlay;
+                background-color: rgba(58, 123, 255, 0.7);
+            }
+
+            .hero-content {
+                max-width: 800px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .hero h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 20px;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out 0.3s forwards;
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                max-width: 700px;
+                margin: 0 auto 20px;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out 0.5s forwards;
+            }
+
+            .hero .solution-for {
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out 0.7s forwards;
+                font-size: 1rem;
+                margin-top: 20px;
+            }
+
+            .section {
+                padding: 80px 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+                position: relative;
+            }
+
+            .section-title {
+                text-align: center;
+                margin-bottom: 60px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 2.2rem;
+                font-weight: 600;
+                color: white;
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out forwards;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .section-subtitle {
+                text-align: center;
+                margin-top: -50px;
+                margin-bottom: 60px;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 1.4rem;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 0.9);
+                opacity: 0;
+                transform: translateY(30px);
+                animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            }
+
+            .problems-container {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+            }
+
+            .problem-card {
+                width: 45%;
+                padding: 25px;
+                border-radius: 16px;
+                background: var(--card-bg);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+                transform: translateX(0);
+                position: relative;
+            }
+
+            .problem-card:nth-child(odd) {
+                align-self: flex-start;
+                transform: translateX(-100px);
+            }
+
+            .problem-card:nth-child(even) {
+                align-self: flex-end;
+                transform: translateX(100px);
+            }
+
+            .problem-card.active {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .problem-card .material-icons {
+                color: var(--problem-color);
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+                background: rgba(255, 58, 58, 0.1);
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                border-radius: 50%;
+                text-align: center;
+            }
+
+            .solutions-container {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+                margin-top: 80px;
+            }
+
+            .solution-card {
+                width: 45%;
+                padding: 25px;
+                border-radius: 16px;
+                background: var(--card-bg);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+                transform: translateX(0);
+                position: relative;
+            }
+
+            .solution-card:nth-child(odd) {
+                align-self: flex-start;
+                transform: translateX(-100px);
+            }
+
+            .solution-card:nth-child(even) {
+                align-self: flex-end;
+                transform: translateX(100px);
+            }
+
+            .solution-card.active {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .solution-card .material-icons {
+                color: var(--mdc-theme-secondary);
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+                background: rgba(76, 175, 80, 0.1);
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                border-radius: 50%;
+                text-align: center;
+            }
+
+            .card-title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 1.3rem;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+
+            .problem-card .card-title {
+                color: var(--problem-color);
+            }
+
+            .solution-card .card-title {
+                color: var(--mdc-theme-secondary);
+            }
+
+            .cta-section {
+                background: rgba(255, 255, 255, 0.2);
+                text-align: center;
+                padding: 80px 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .cta-card {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 40px;
+                border-radius: 16px;
+                background: var(--card-bg);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+                opacity: 0;
+                transform: scale(0.9);
+                animation: scaleIn 0.8s ease-out 0.7s forwards;
+            }
+
+            .cta-title {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 1.6rem;
+                font-weight: 600;
+                margin-bottom: 20px;
+                color: var(--mdc-theme-primary);
+            }
+
+            /* CRM Section */
+            .crm-container {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 60px;
+                margin-top: 80px;
+            }
+
+            .crm-card {
+                width: 45%;
+                padding: 25px;
+                border-radius: 16px;
+                background: var(--card-bg);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                opacity: 0;
+                transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+                transform: translateX(0);
+                position: relative;
+            }
+
+            .crm-card:nth-child(odd) {
+                align-self: flex-start;
+                transform: translateX(-100px);
+            }
+
+            .crm-card:nth-child(even) {
+                align-self: flex-end;
+                transform: translateX(100px);
+            }
+
+            .crm-card.active {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .crm-card .material-icons {
+                color: var(--mdc-theme-primary);
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+                background: rgba(58, 123, 255, 0.1);
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                border-radius: 50%;
+                text-align: center;
+            }
+
+            .crm-card .card-title {
+                color: var(--mdc-theme-primary);
+            }
+
+            /* Footer */
+            footer {
+                background: #1a1a2e;
+                color: white;
+                padding: 0;
+                font-size: 0.9rem;
+            }
+
+            .footer-map-container {
+                padding: 40px 20px 0;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .footer-map {
+                width: 100%;
+                height: 400px;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 40px 20px;
+                display: flex;
+                justify-content: center;
+                gap: 80px;
+            }
+
+            .footer-column {
+                flex: 1;
+                max-width: 400px;
+            }
+
+            .footer-column h3 {
+                font-family: 'Montserrat', sans-serif;
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+                color: #fff;
+                text-align: left;
+                padding-left: 0;
+            }
+
+            .footer-column ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .footer-column li {
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+            }
+            .footer-column li a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+            .footer-column li .material-icons {
+                margin-right: 10px;
+                font-size: 1.2rem;
+            }
+
+            .social-links {
+                display: flex;
+                gap: 15px;
+                margin-top: 20px;
+            }
+
+            .footer-bottom {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                text-align: center;
+            }
+
+            .copyright {
+                color: #aaa;
+                font-size: 0.8rem;
+            }
+            .mdc-text-field__input::placeholder {
+                color: rgba(0, 0, 0, 0.6);
+            }
+
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes scaleIn {
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(58, 123, 255, 0.4);
+                }
+                70% {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 0 10px rgba(58, 123, 255, 0);
+                }
+                100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(58, 123, 255, 0);
+                }
+            }
+
+            .pulse-animation {
+                animation: pulse 2s infinite;
+            }
+
+            .mdc-button {
+                border-radius: 12px !important;
+                height: 50px !important;
+                font-weight: 600 !important;
+                letter-spacing: 0.5px !important;
+                transition: all 0.3s ease !important;
+            }
+
+            .mdc-button--raised {
+                box-shadow: 0 4px 20px rgba(58, 123, 255, 0.3) !important;
+            }
+
+            .mdc-button--raised:hover {
+                transform: translateY(-3px) !important;
+                box-shadow: 0 6px 25px rgba(58, 123, 255, 0.4) !important;
+            }
+
+            .mdc-text-field {
+                border-radius: 12px !important;
+                background-color: rgba(255, 255, 255, 0.8) !important;
+                margin-bottom: 20px !important;
+            }
+
+            /* Стили для плавающего лейбла */
+            .mdc-text-field--focused .mdc-floating-label {
+                color: var(--mdc-theme-primary) !important;
+                transform: translateY(-50%) scale(0.75) !important;
+            }
+
+            .mdc-text-field--has-value .mdc-floating-label {
+                transform: translateY(-50%) scale(0.75) !important;
+                opacity: 0;
+            }
+
+            /* Стили для модального окна */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 100;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 10% auto;
+                padding: 30px;
+                border-radius: 12px;
+                width: 80%;
+                max-width: 700px;
+                box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+                position: relative;
+            }
+
+            .close-modal {
+                position: absolute;
+                right: 20px;
+                top: 20px;
+                font-size: 24px;
+                cursor: pointer;
+                color: #666;
+            }
+
+            .modal-title {
+                font-family: 'Montserrat', sans-serif;
+                color: var(--mdc-theme-primary);
+                margin-bottom: 20px;
+            }
+
+            /* Адаптация для мобильных */
+            @media (max-width: 768px) {
+                .footer-content {
+                    flex-direction: column;
+                    gap: 40px;
+                    padding: 30px 15px;
+                }
+
+                .footer-column {
+                    max-width: 100%;
+                }
+
+                .social-links {
+                    justify-content: flex-start;
+                }
+            }
+            @media (max-width: 480px) {
+                .footer-map {
+                    height: 250px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Теряете 10+ часов в месяц на учет финансов и документы?</h1>
+                <p>
+                    Telegram-бот автоматизирует рутину: записывает
+                    доходы/расходы, напоминает о налогах и создает документы за
+                    1 минуту
+                </p>
+                <button id="cta-button" class="mdc-button mdc-button--raised">
+                    <span class="mdc-button__label"
+                        >Получить ранний доступ</span
+                    >
+                </button>
+                <p class="solution-for">
+                    <strong
+                        >Идеальное решение для самозанятых и
+                        микробизнеса.</strong
+                    >
+                </p>
+            </div>
+        </section>
+
+        <!-- Problems Section -->
+        <section class="section">
+            <h2 class="section-title">Знакомо?</h2>
+
+            <div class="problems-container">
+                <div class="problem-card">
+                    <i class="material-icons">trending_down</i>
+                    <h3 class="card-title">Ручной учет в Excel</h3>
+                    <p class="mdc-typography--body1">
+                        Легко ошибиться и потерять деньги. Каждая ошибка в
+                        расчетах может стоить вам тысяч рублей при проверках.
+                        Особенно критично для небольших компаний, где каждый
+                        рубль на счету.
+                    </p>
+                </div>
+
+                <div class="problem-card">
+                    <i class="material-icons">error</i>
+                    <h3 class="card-title">Штрафы от налоговой</h3>
+                    <p class="mdc-typography--body1">
+                        Пени и штрафы накапливаются, отнимая вашу прибыль, когда
+                        вы забываете вовремя платить. Для самозанятых это
+                        особенно болезненно.
+                    </p>
+                </div>
+
+                <div class="problem-card">
+                    <i class="material-icons">schedule</i>
+                    <h3 class="card-title">Задержки оплат</h3>
+                    <p class="mdc-typography--body1">
+                        Деньги за работу зависают на недели без напоминаний
+                        клиентам об оплате. В малом бизнесе это может нарушить
+                        весь денежный поток.
+                    </p>
+                </div>
+
+                <div class="problem-card">
+                    <i class="material-icons">description</i>
+                    <h3 class="card-title">Создание документов</h3>
+                    <p class="mdc-typography--body1">
+                        Шаблонные документы, но каждый раз приходится заполнять
+                        их вручную, тратя часы времени. Для небольшой команды
+                        это непозволительная роскошь.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="section">
+            <h2 class="section-title">Как это работает?</h2>
+
+            <div class="solutions-container">
+                <div class="solution-card">
+                    <i class="material-icons">mic</i>
+                    <h3 class="card-title">Голосовой ввод</h3>
+                    <p class="mdc-typography--body1">
+                        Просто говорите: "Записать доход 50 000 от клиента
+                        Иванов" — бот все сохранит автоматически.
+                    </p>
+                </div>
+
+                <div class="solution-card">
+                    <i class="material-icons">description</i>
+                    <h3 class="card-title">Автодокументы</h3>
+                    <p class="mdc-typography--body1">
+                        Счет или акт создается за 1 минуту. Все шаблоны уже
+                        готовы и настраиваются под ваш бизнес.
+                    </p>
+                </div>
+
+                <div class="solution-card">
+                    <i class="material-icons">notifications</i>
+                    <h3 class="card-title">Напоминания</h3>
+                    <p class="mdc-typography--body1">
+                        Бот пришлет сообщение: "Через 3 дня срок уплаты налога
+                        15 000 ₽", чтобы вы ничего не забыли.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRM Section -->
+        <section class="section">
+            <h2 class="section-title">CRM для самозанятых и микробизнеса</h2>
+            <h3 class="section-subtitle">
+                Почему обычные системы вам не подходят?
+            </h3>
+
+            <div class="crm-container">
+                <div class="crm-card">
+                    <i class="material-icons">attach_money</i>
+                    <h3 class="card-title">Слишком дорогие</h3>
+                    <p class="mdc-typography--body1">
+                        Большинство CRM стоят от 2 000 ₽/мес., а вам нужен
+                        максимум за минимум. Наше решение - от 290 ₽/мес.
+                    </p>
+                </div>
+
+                <div class="crm-card">
+                    <i class="material-icons">settings</i>
+                    <h3 class="card-title">Сложные настройки</h3>
+                    <p class="mdc-typography--body1">
+                        Без IT-специалиста разобраться почти невозможно. Мы
+                        сделали интерфейс, который поймет даже новичок.
+                    </p>
+                </div>
+
+                <div class="crm-card">
+                    <i class="material-icons">extension</i>
+                    <h3 class="card-title">Избыток функций</h3>
+                    <p class="mdc-typography--body1">
+                        Вам не нужны воронки для 100 менеджеров, а просто учет
+                        клиентов и напоминания. Мы оставили только важное.
+                    </p>
+                </div>
+
+                <div class="crm-card">
+                    <i class="material-icons">thumb_up</i>
+                    <h3 class="card-title">Наше решение</h3>
+                    <p class="mdc-typography--body1">
+                        Простая и дешевая CRM специально для самозанятых и
+                        микробизнеса с автоматизацией напоминаний, учета
+                        платежей и быстрыми отчетами.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="cta-section" class="cta-section">
+            <div class="cta-card">
+                <h2 class="cta-title">Хотите попробовать первыми?</h2>
+                <p class="mdc-typography--body1" style="margin: 20px 0 30px">
+                    Оставьте контакт — и мы пришлем вам доступ к боту бесплатно
+                    на 14 дней
+                </p>
+
+                <form
+                    id="lead-form"
+                    action="https://formspree.io/f/hyper5047@gmail.com"
+                    method="POST"
+                >
+                    <div
+                        class="mdc-text-field mdc-text-field--outlined"
+                        style="width: 100%"
+                        data-mdc-auto-init="MDCTextField"
+                    >
+                        <input
+                            type="text"
+                            id="contact-input"
+                            class="mdc-text-field__input"
+                            name="contact"
+                            required
+                            placeholder="Email или Telegram"
+                        />
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch"></div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+
+                    <button
+                        id="submit-button"
+                        type="submit"
+                        class="mdc-button mdc-button--raised"
+                        style="margin-top: 20px; width: 100%"
+                    >
+                        <span class="mdc-button__label">Получить доступ</span>
+                    </button>
+                </form>
+
+                <p
+                    class="mdc-typography--body2"
+                    style="margin-top: 20px; color: #666"
+                >
+                    Без спама. Отписка в 1 клик
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-map-container">
+                <div class="footer-map" id="map"></div>
+            </div>
+
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Контактная информация</h3>
+                    <ul>
+                        <li>
+                            <i class="material-icons">phone</i> +7 (123)
+                            456-78-90
+                        </li>
+                        <li>
+                            <i class="material-icons">email</i> info@microbiz.ru
+                        </li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#" aria-label="Telegram"
+                            ><i class="fab fa-telegram"></i
+                        ></a>
+                        <a href="#" aria-label="VKontakte"
+                            ><i class="fab fa-vk"></i
+                        ></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Юридическая информация</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="privacy-link"
+                                >Политика конфиденциальности</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#" class="offer-link">Публичная оферта</a>
+                        </li>
+                        <li>
+                            <a href="#" class="terms-link"
+                                >Условия пользования</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">© 2025 MicroBiz. Все права защищены</div>
+            </div>
+        </footer>
+
+        <!-- Модальные окна -->
+        <div id="privacy-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 class="modal-title">Политика конфиденциальности</h3>
+                <p>
+                    Мы серьезно относимся к защите ваших персональных данных.
+                    Все собираемые данные используются исключительно для
+                    предоставления наших услуг и не передаются третьим лицам без
+                    вашего согласия.
+                </p>
+                <p>
+                    Мы используем современные методы шифрования для защиты вашей
+                    информации и соблюдаем все требования законодательства о
+                    защите персональных данных.
+                </p>
+            </div>
+        </div>
+
+        <div id="offer-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 class="modal-title">Публичная оферта</h3>
+                <p>
+                    Настоящий документ является публичной офертой компании
+                    MicroBiz о предоставлении услуг по автоматизации учета для
+                    самозанятых и микробизнеса.
+                </p>
+                <p>
+                    Акцептом оферты считается совершение действий по регистрации
+                    в системе и оплате услуг в соответствии с выбранным тарифным
+                    планом.
+                </p>
+            </div>
+        </div>
+
+        <div id="terms-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 class="modal-title">Условия пользования</h3>
+                <p>
+                    1. Сервис предоставляется "как есть" без гарантий
+                    бесперебойной работы.
+                </p>
+                <p>
+                    2. Пользователь обязуется не использовать сервис для
+                    незаконной деятельности.
+                </p>
+                <p>
+                    3. Компания оставляет за собой право вносить изменения в
+                    функционал сервиса.
+                </p>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                mdc.autoInit();
+
+                // Анимация для кнопки в hero-секции
+                const ctaButton = document.getElementById('cta-button');
+                setTimeout(() => {
+                    ctaButton.style.opacity = '0';
+                    ctaButton.style.transform = 'translateY(30px)';
+                    ctaButton.style.animation =
+                        'fadeInUp 0.8s ease-out 0.7s forwards';
+                }, 100);
+
+                // Модальные окна
+                const privacyModal = document.getElementById('privacy-modal');
+                const offerModal = document.getElementById('offer-modal');
+                const termsModal = document.getElementById('terms-modal');
+
+                document.querySelectorAll('.privacy-link').forEach((link) => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        privacyModal.style.display = 'block';
+                    });
+                });
+
+                document.querySelectorAll('.offer-link').forEach((link) => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        offerModal.style.display = 'block';
+                    });
+                });
+
+                document.querySelectorAll('.terms-link').forEach((link) => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        termsModal.style.display = 'block';
+                    });
+                });
+
+                document
+                    .querySelectorAll('.close-modal')
+                    .forEach((closeBtn) => {
+                        closeBtn.addEventListener('click', function () {
+                            this.closest('.modal').style.display = 'none';
+                        });
+                    });
+
+                window.addEventListener('click', function (e) {
+                    if (e.target.classList.contains('modal')) {
+                        e.target.style.display = 'none';
+                    }
+                });
+
+                // Прокрутка к форме при нажатии на кнопку
+                document
+                    .getElementById('cta-button')
+                    .addEventListener('click', function (e) {
+                        e.preventDefault();
+                        document.getElementById('cta-section').scrollIntoView({
+                            behavior: 'smooth',
+                        });
+                    });
+
+                // Отправка формы через Formspree
+                const form = document.getElementById('lead-form');
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const submitButton =
+                        document.getElementById('submit-button');
+                    const originalText =
+                        submitButton.querySelector(
+                            '.mdc-button__label'
+                        ).textContent;
+
+                    // Показываем загрузку
+                    submitButton.querySelector(
+                        '.mdc-button__label'
+                    ).textContent = 'Отправка...';
+                    submitButton.disabled = true;
+
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: {
+                            Accept: 'application/json',
+                        },
+                    })
+                        .then((response) => {
+                            if (response.ok) {
+                                // Показать сообщение об успехе
+                                alert('Спасибо! Мы скоро свяжемся с вами.');
+                                form.reset();
+                            } else {
+                                throw new Error('Ошибка отправки формы');
+                            }
+                        })
+                        .catch((error) => {
+                            alert(
+                                'Произошла ошибка. Пожалуйста, попробуйте еще раз.'
+                            );
+                            console.error('Form submission error:', error);
+                        })
+                        .finally(() => {
+                            // Восстанавливаем кнопку
+                            submitButton.querySelector(
+                                '.mdc-button__label'
+                            ).textContent = originalText;
+                            submitButton.disabled = false;
+                        });
+                });
+
+                // Инициализация карты
+                function initMap() {
+                    if (typeof ymaps !== 'undefined') {
+                        ymaps.ready(function () {
+                            const map = new ymaps.Map('map', {
+                                center: [55.796127, 49.106414], // Координаты Казани
+                                zoom: 15,
+                                controls: ['zoomControl'],
+                            });
+
+                            // Добавление метки
+                            const placemark = new ymaps.Placemark(
+                                [55.796127, 49.106414],
+                                {
+                                    hintContent: 'Наш офис',
+                                    balloonContent: 'ул. Товарищеская, 30',
+                                },
+                                {
+                                    iconLayout: 'default#image',
+                                    iconImageHref:
+                                        'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                                    iconImageSize: [40, 40],
+                                    iconImageOffset: [-20, -40],
+                                }
+                            );
+
+                            map.geoObjects.add(placemark);
+                            map.behaviors.disable('scrollZoom');
+                        });
+                    }
+                }
+
+                // Загрузка API Яндекс.Карт
+                const script = document.createElement('script');
+                script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+                script.onload = initMap;
+                document.body.appendChild(script);
+
+                // Проверка видимости элементов
+                function checkVisibility() {
+                    const cards = document.querySelectorAll(
+                        '.problem-card, .solution-card, .crm-card'
+                    );
+                    const windowHeight = window.innerHeight;
+
+                    cards.forEach((card) => {
+                        const rect = card.getBoundingClientRect();
+                        const isVisible =
+                            rect.top <= windowHeight * 0.8 &&
+                            rect.bottom >= windowHeight * 0.2;
+
+                        if (isVisible) {
+                            card.classList.add('active');
+                        } else {
+                            card.classList.remove('active');
+                        }
+                    });
+
+                    // Анимация кнопки
+                    const ctaRect = document
+                        .getElementById('cta-section')
+                        .getBoundingClientRect();
+                    const ctaVisible =
+                        ctaRect.top <= windowHeight * 0.8 &&
+                        ctaRect.bottom >= windowHeight * 0.2;
+
+                    if (ctaVisible) {
+                        document
+                            .getElementById('submit-button')
+                            .classList.add('pulse-animation');
+                    } else {
+                        document
+                            .getElementById('submit-button')
+                            .classList.remove('pulse-animation');
+                    }
+                }
+
+                // Проверяем видимость при загрузке и при скролле
+                window.addEventListener('load', checkVisibility);
+                window.addEventListener('scroll', checkVisibility);
+                window.addEventListener('resize', checkVisibility);
+            });
+        </script>
+    </body>
+</html>
